@@ -82,10 +82,10 @@ class AssembleReleaseChannel extends DefaultTask{
                 throw new GradleException("configFile 配置文件中，未配置 channel 信息")
             }
 
-            def extraInfo = new HashMap<String, String>()
 
             def increment = channelInfo.isIncrement()
             if (increment){
+                def extraInfo = new HashMap<String, String>()
                 int incrementCount = channelInfo.getIncrementCount()
                 for (int i = 0; i < incrementCount; i++){
                     extraInfo.put(Utils.ALIAS_KEY, "${i}")
@@ -97,6 +97,7 @@ class AssembleReleaseChannel extends DefaultTask{
                     throw new GradleException("configFile 配置文件 channel 中 list 配置为空")
                 }
                 channelList.each { channelItem ->
+                    def extraInfo = channelItem.extraInfo != null ? channelItem.extraInfo : new HashMap<String, String>()
                     extraInfo.put(Utils.ALIAS_KEY, channelItem.alias)
                     generateChannelApk(apkFile, outputFolder, channelItem.channel, extraInfo, channelItem.alias, nameVariantMap)
                 }

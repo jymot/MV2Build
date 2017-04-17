@@ -1,6 +1,7 @@
 package im.wangchao.build;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Description  : LKLBuildConfig.
@@ -17,7 +18,8 @@ import java.util.List;
  *                          "list":[
  *                              {
  *                                  "alias": "渠道别名，如360，应用宝等",
- *                                  "channel": "对应的渠道号"
+ *                                  "channel": "对应的渠道号",
+ *                                  "extraInfo": {}
  *                              }
  *                          ]
  *                      }
@@ -102,6 +104,15 @@ public class MBuildConfig {
     public static class ChannelListInfo{
         private String channel;
         private String alias;
+        private Map<String, String> extraInfo;
+
+        public Map<String, String> getExtraInfo() {
+            return extraInfo;
+        }
+
+        public void setExtraInfo(Map<String, String> extraInfo) {
+            this.extraInfo = extraInfo;
+        }
 
         public String getChannel() {
             return channel;
