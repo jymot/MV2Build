@@ -3,7 +3,7 @@
 ### Gradle:
 ```gradle
 compile 'im.wangchao:build-helper:0.1.2'
-classpath 'im.wangchao:v2-build-plugin:0.1.0'
+classpath 'im.wangchao:v2-build-plugin:0.1.2'
 ```
 
 ### 如何使用
