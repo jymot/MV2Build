@@ -1,0 +1,1 @@
+include ':app', ':build-helper', 'v2-build-plugin'

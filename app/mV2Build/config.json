@@ -1,0 +1,18 @@
+{
+  "manifest": [
+    {
+      "key": "Test",
+      "value": "V{date}"
+    }
+  ],
+  "channel": {
+    "increment": false,
+    "incrementCount": 10,
+    "list":[
+      {
+        "alias": "测试渠道",
+        "channel": "test"
+      }
+    ]
+  }
+}

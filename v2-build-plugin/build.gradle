@@ -1,0 +1,50 @@
+group PROJ_GROUP
+version PROJ_VERSION
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+//apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+
+repositories {
+//    mavenLocal()
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        //jcenter push
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.0.0" // Remove it if you won't to publish SNAPSHOT version.
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+    compile 'commons-io:commons-io:2.4'
+    compile 'commons-codec:commons-codec:1.6'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'com.android.tools.build:gradle:2.3.0'
+    compile 'org.json:json:20080701'// Groovy里有，但是如果这里不依赖报JsonException not found，还是强制依赖下吧。
+    compile 'com.meituan.android.walle:payload_writer:1.1.1'
+    compile 'com.google.code.gson:gson:2.8.0'
+}
+
+//apply from: 'https://raw.githubusercontent.com/motcwang/Utils/master/bintray-publish/bintray-java.gradle'
+
+// mavenLocal
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: mavenLocal().url)
+//        }
+//    }
+//}
