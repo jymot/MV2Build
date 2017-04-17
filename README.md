@@ -1,4 +1,5 @@
 # MV2Build
+打包使用 V2 签名，使用前请确保设置 V2。
 
 ### Gradle:
 ```gradle
