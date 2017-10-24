@@ -8,11 +8,18 @@ import com.google.common.hash.HashCode
 import com.google.common.hash.HashFunction
 import com.google.common.hash.Hashing
 import com.google.common.io.Files
+import im.wangchao.build.utils.FileUtils
+import im.wangchao.build.utils.ZipUtils
+import im.wangchao.build.utils.encrypt.DigestUtils
+import im.wangchao.build.utils.encrypt.RSAEncryptUtils
 import org.apache.commons.io.IOUtils
 import org.gradle.api.GradleException
+import org.gradle.api.Project
 
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
+import java.security.PublicKey
+
 /**
  * <p>Description  : Utils.</p>
  * <p>Author       : wangchao.</p>
@@ -64,4 +71,71 @@ class Utils {
         return hashCode.toString()
     }
 
+
+    public static boolean checkPublicKeyEnable(publicKey){
+        if (publicKey == null){
+            return false
+        }
+
+        if (publicKey instanceof String && !publicKey.isEmpty()){
+            return true
+        }
+
+        if (publicKey instanceof File && publicKey.exists()){
+            return true
+        }
+
+        return false
+    }
+
+    public static String getIntegrityInfo(File apk, File outputFolder, pk, Project project){
+        String integrityFileName = "integrity.zip"
+
+        File integrityFile = new File(outputFolder, integrityFileName)
+        FileUtils.copyFile(apk, integrityFile)
+
+        File tempCheckFile = new File(outputFolder, "temp${System.currentTimeMillis()}")
+        String tempCheckPath = tempCheckFile.getCanonicalPath()
+        ZipUtils.unZip(integrityFile, tempCheckPath)
+
+        File manifestFile = new File("${tempCheckPath}/META-INF/MANIFEST.MF")
+        String digest = DigestUtils.md5(manifestFile)
+
+        // 删除 zip 文件
+        FileUtils.deleteFile(integrityFile)
+        // 删除临时目录
+        FileUtils.deleteFile(tempCheckFile)
+
+        String pkValue
+        if (pk instanceof String){
+            pkValue = pk
+        } else if (pk instanceof File){
+            pkValue = FileUtils.readUtf8(pk)
+        }
+
+        if (pkValue == null){
+            return ""
+        }
+        pkValue = publicKeyFormat(pkValue)
+        project.logger.error("pkValue: ${pkValue}")
+
+        // 加密 MANIFEST.MF 文件摘要
+        PublicKey pKey = RSAEncryptUtils.loadPublicKey(pkValue)
+        byte[] encryptData = RSAEncryptUtils.encryptData(digest.getBytes("UTF-8"), pKey)
+
+        if (encryptData == null){
+            return ""
+        }
+        String resultData = new String(Base64.encode(encryptData, Base64.NO_WRAP))
+
+        project.logger.error("encrypt data: ${resultData}")
+
+        return resultData
+    }
+
+    private static String publicKeyFormat(String pk){
+        return pk.replace("-----BEGIN PUBLIC KEY-----", "")
+                .replace("-----END PUBLIC KEY-----","")
+                .replace("\n","").replace("\r", "").replace("\t","").trim()
+    }
 }

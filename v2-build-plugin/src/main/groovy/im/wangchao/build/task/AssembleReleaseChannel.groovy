@@ -82,10 +82,15 @@ class AssembleReleaseChannel extends DefaultTask{
                 throw new GradleException("configFile 配置文件中，未配置 channel 信息")
             }
 
+            def extraInfo = new HashMap<String, String>()
+            // 如果公钥不为空，那么打包时会注入完整性校验信息
+            def pk = buildExtension.publicKey
+            if (Utils.checkPublicKeyEnable(pk)){
+                extraInfo.put(Utils.INTEGRITY_KEY, Utils.getIntegrityInfo(apkFile, outputFolder, pk, targetProject))
+            }
 
             def increment = channelInfo.isIncrement()
             if (increment){
-                def extraInfo = new HashMap<String, String>()
                 int incrementCount = channelInfo.getIncrementCount()
                 for (int i = 0; i < incrementCount; i++){
                     extraInfo.put(Utils.ALIAS_KEY, "${i}")
@@ -97,7 +102,10 @@ class AssembleReleaseChannel extends DefaultTask{
                     throw new GradleException("configFile 配置文件 channel 中 list 配置为空")
                 }
                 channelList.each { channelItem ->
-                    def extraInfo = channelItem.extraInfo != null ? channelItem.extraInfo : new HashMap<String, String>()
+                    if (channelItem.extraInfo != null){
+                        // 如果每一项单独配置了额外的信息，那么需要添加到 extraInfo 中
+                        extraInfo.putAll(channelInfo.extraInfo);
+                    }
                     extraInfo.put(Utils.ALIAS_KEY, channelItem.alias)
                     generateChannelApk(apkFile, outputFolder, channelItem.channel, extraInfo, channelItem.alias, nameVariantMap)
                 }
