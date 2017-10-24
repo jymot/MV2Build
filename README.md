@@ -115,6 +115,13 @@ String alias = ApkInfoReader.getAlias(getApplicationContext());
 String result = info.getExtraInfo().get("自定义的key");
 
 ```
+### 打包
+可以直接执行如下命令：
+```shell
+# 渠道发布包
+gradle assembleReleaseChannel
+```
+如果不想执行命令，那么在**Android Studio**界面右侧，点击`Gradle`，然后选择你的主工程，然后找到`mv2build`目录，执行相应的任务就可以了。
 
 ### 参考致谢
  * [walle](https://github.com/Meituan-Dianping/walle)
