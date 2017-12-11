@@ -2,9 +2,17 @@
 打包使用 V2 签名，使用前请确保设置 V2。
 
 ### Gradle:
+Add mrouter-plugin as a dependency in your main build.gradle in the root of your project:
+```gradle
+buildscript {
+    dependencies {
+        classpath 'im.wangchao:v2-build-plugin:0.1.2'
+    }
+}
+```
+
 ```gradle
 compile 'im.wangchao:build-helper:0.1.2'
-classpath 'im.wangchao:v2-build-plugin:0.1.2'
 ```
 
 ### 如何使用
