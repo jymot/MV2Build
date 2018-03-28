@@ -2,9 +2,17 @@
 打包使用 V2 签名，使用前请确保设置 V2。
 
 ### Gradle:
+Add MV2Build as a dependency in your main build.gradle in the root of your project:
+```gradle
+buildscript {
+    dependencies {
+        classpath 'im.wangchao:v2-build-plugin:0.2.0'
+    }
+}
+```
+
 ```gradle
 compile 'im.wangchao:build-helper:0.2.0'
-classpath 'im.wangchao:v2-build-plugin:0.2.0'
 ```
 
 `implementation` 代替 `compile`
