@@ -1,7 +1,6 @@
 package im.wangchao.build
 
 import com.android.build.gradle.api.BaseVariant
-import com.android.builder.Version
 import com.android.builder.model.SigningConfig
 import im.wangchao.build.extension.ChannelExtension
 import im.wangchao.build.extension.BuildExtension
@@ -29,10 +28,6 @@ class MBuildPlugin implements Plugin<Project>{
             throw new GradleException("Plugin requires the 'com.android.application' plugin to be configured.", null)
         }
 
-        if (versionCompare(Version.ANDROID_GRADLE_PLUGIN_VERSION, "2.3.0") < 0) {
-            throw new GradleException("Plugin requires the 'com.android.tools.build:gradle' version 2.3.0 or above to be configured.", null)
-        }
-
         project.extensions.create('mV2Build', BuildExtension)
         /**
          * Multi-Channel 相关配置
@@ -52,7 +47,7 @@ class MBuildPlugin implements Plugin<Project>{
             PreBuildScriptTask preBuildScriptTask = project.tasks.create("preBuildScript", PreBuildScriptTask)
             preBuildScriptTask.targetProject = project
 
-            project.android.applicationVariants.all { BaseVariant variant ->
+            project.android.applicationVariants.all { variant ->
                 def variantName = variant.name.capitalize()
 
                 if (!isV2SignatureSchemeEnabled(variant)) {

@@ -3,9 +3,11 @@
 
 ### Gradle:
 ```gradle
-compile 'im.wangchao:build-helper:0.1.2'
-classpath 'im.wangchao:v2-build-plugin:0.1.2'
+compile 'im.wangchao:build-helper:0.2.0'
+classpath 'im.wangchao:v2-build-plugin:0.2.0'
 ```
+
+`implementation` 代替 `compile`
 
 ### 如何使用
 在主工程`build.gradle`文件中添加如下代码：

@@ -1,17 +1,15 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-
+        consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
     buildTypes {
         release {
@@ -26,8 +24,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.meituan.android.walle:payload_reader:1.1.1'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.meituan.android.walle:payload_reader:1.1.6'
 }
 
 apply from: 'https://raw.githubusercontent.com/motcwang/Utils/master/bintray-publish/bintray.gradle'
