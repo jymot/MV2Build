@@ -6,13 +6,13 @@ Add MV2Build as a dependency in your main build.gradle in the root of your proje
 ```gradle
 buildscript {
     dependencies {
-        classpath 'im.wangchao:v2-build-plugin:0.2.0'
+        classpath 'im.wangchao:v2-build-plugin:0.2.1'
     }
 }
 ```
 
 ```gradle
-compile 'im.wangchao:build-helper:0.2.0'
+compile 'im.wangchao:build-helper:0.2.1'
 ```
 
 `implementation` 代替 `compile`
@@ -31,10 +31,16 @@ mV2Build{
 
 
     /**
-    * 需要清除渠道的 APK。如果配置该项，那么会有 clearChannel Task 提供使用，
-    * 该 Task 会请空指定 APK 的渠道信息。
-    */
+     * 需要清除渠道的 APK。如果配置该项，那么会有 clearChannel Task 提供使用，
+     * 该 Task 会请空指定 APK 的渠道信息。
+     */
     clearChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-0.apk")
+
+    /**
+     * 需要打印渠道信息的 APK。如果配置该项，那么会有 printChannelInfo Task 提供使用。
+     */
+    printChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-测试渠道1.apk")
+
 
     /**
      * 在打包前，需要最先执行的脚本，执行顺序由数组顺序决定。
