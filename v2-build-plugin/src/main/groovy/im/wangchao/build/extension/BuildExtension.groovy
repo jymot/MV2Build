@@ -27,12 +27,15 @@ class BuildExtension {
     File clearChannelApkFile
 
     /**
+     * 需要打印渠道信息的 APK。如果配置该项，那么会有 printChannelInfo Task 提供使用。
+     */
+    File printChannelApkFile
+
+    /**
      * 在打包前，需要最先执行的脚本，执行顺序由数组顺序决定。
      * 数组的值为需要执行脚本的绝对路径。
      */
     String[] preBuildScript
-
-//    ChannelExtension channel
 
     BuildExtension(){
 

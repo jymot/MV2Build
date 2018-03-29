@@ -42,4 +42,4 @@ dependencies {
     implementation project(':build-helper')
 }
 
-//apply from: 'mV2Build/package.gradle'
+apply from: 'mV2Build/package.gradle'

@@ -27,8 +27,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Log.e("wcwcwc", "Test:" + getApplicationInfo().metaData.getString("Test"));
-        Log.e("wcwcwc", "Version Name: " + BuildConfig.VERSION_NAME);
+        Bundle meta = getApplicationInfo().metaData;
+        if (meta != null){
+            Log.e("wcwcwc", "Test:" + getApplicationInfo().metaData.getString("Test"));
+        }
     }
     private void readChannel(TextView textView) {
         final long startTime = System.currentTimeMillis();

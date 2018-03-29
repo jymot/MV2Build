@@ -12,7 +12,12 @@ mV2Build{
     * 需要清除渠道的 APK。如果配置该项，那么会有 clearChannel Task 提供使用，
     * 该 Task 会请空指定 APK 的渠道信息。
     */
-    clearChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-0.apk")
+    clearChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-测试渠道.apk")
+
+    /**
+     * 需要打印渠道信息的 APK。如果配置该项，那么会有 printChannelInfo Task 提供使用。
+     */
+    printChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-测试渠道.apk")
 
     /**
      * 在打包前，需要最先执行的脚本，执行顺序由数组顺序决定。
@@ -41,7 +46,7 @@ mV2Build{
         /**
          * AndroidManifest.xml 文件
          */
-        manifestFile = new File("${project.getProjectDir()}/src/main/AndroidManifest.xml")
+//        manifestFile = new File("${project.getProjectDir()}/src/main/AndroidManifest.xml")
         /**
          * 依赖的变种类型，可以不设置，默认为 release
          */

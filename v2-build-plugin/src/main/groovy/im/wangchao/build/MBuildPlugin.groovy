@@ -44,7 +44,7 @@ class MBuildPlugin implements Plugin<Project>{
             /**
              * 1. Pre-Build Script Task
              */
-            PreBuildScriptTask preBuildScriptTask = project.tasks.create("preBuildScript", PreBuildScriptTask)
+            PreBuildScriptTask preBuildScriptTask = project.tasks.create(Constants.TASK_PRE_BUILD, PreBuildScriptTask)
             preBuildScriptTask.targetProject = project
 
             project.android.applicationVariants.all { variant ->
@@ -62,20 +62,31 @@ class MBuildPlugin implements Plugin<Project>{
                         && project.mV2Build.channel.writeChannelApkFile instanceof File
                         && variantName != null
                         && variantName.equalsIgnoreCase("release")){
-                    OnlyWriteChannel writeChannel = project.tasks.create("onlyWriteChannel", OnlyWriteChannel)
+                    OnlyWriteChannel writeChannel = project.tasks.create(Constants.TASK_ONLY_WRITE_CHANNEL, OnlyWriteChannel)
                     writeChannel.targetProject = project
                     writeChannel.variant = variant
                 }
 
                 /**
-                 * 3.clearChannel
+                 * 3.cleanChannelInfo
                  */
                 if (project.mV2Build.clearChannelApkFile != null
                         && project.mV2Build.clearChannelApkFile instanceof File
                         && variantName != null
                         && variantName.equalsIgnoreCase("release")){
-                    ClearChannel clearChannel = project.tasks.create("clearChannel", ClearChannel)
+                    CleanChannel clearChannel = project.tasks.create(Constants.TASK_CLEAN_CHANNEL_INFO, CleanChannel)
                     clearChannel.targetProject = project
+                }
+
+                /**
+                 * 4.printChannelInfo
+                 */
+                if (project.mV2Build.printChannelApkFile != null
+                        && project.mV2Build.printChannelApkFile instanceof File
+                        && variantName != null
+                        && variantName.equalsIgnoreCase("release")){
+                    PrintChannelInfo printChannelInfo = project.tasks.create(Constants.TASK_PRINT_CHANNEL_INFO, PrintChannelInfo)
+                    printChannelInfo.targetProject = project
                 }
 
                 if (variantName != null){
@@ -86,9 +97,9 @@ class MBuildPlugin implements Plugin<Project>{
                         project.logger.error("=======>>> assembleReleaseChannel dependsOn ${multiChannelBuildType} =======")
 
                         /**
-                         * 4. create assembleReleaseChannel
+                         * 5. create assembleReleaseChannel
                          */
-                        AssembleReleaseChannel assembleReleaseChannel = project.tasks.create("assembleReleaseChannel", AssembleReleaseChannel)
+                        AssembleReleaseChannel assembleReleaseChannel = project.tasks.create(Constants.TASK_ASSEMBLE_RELEASE_CHANNEL, AssembleReleaseChannel)
                         assembleReleaseChannel.targetProject = project
                         assembleReleaseChannel.variant = variant
                         assembleReleaseChannel.dependsOn variant.assemble
@@ -96,9 +107,9 @@ class MBuildPlugin implements Plugin<Project>{
                         variant.assemble.mustRunAfter preBuildScriptTask
 
                         /**
-                         * 5. 修改 Channel 中 AndroidManifest.xml 文件 Task
+                         * 6. 修改 Channel 中 AndroidManifest.xml 文件 Task
                          */
-                        ModifyManifestTask channelManifestTask = project.tasks.create("modifyChannelManifest", ModifyManifestTask)
+                        ModifyManifestTask channelManifestTask = project.tasks.create(Constants.TASK_MODIFY_CHANNEL_MANIFEST, ModifyManifestTask)
                         // 默认打包时，优先执行 multiServerManifestTask
                         channelManifestTask.targetProject = project
                         assembleReleaseChannel.dependsOn channelManifestTask

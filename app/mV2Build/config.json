@@ -1,10 +1,4 @@
 {
-  "manifest": [
-    {
-      "key": "Test",
-      "value": "V{date}"
-    }
-  ],
   "channel": {
     "increment": false,
     "incrementCount": 10,

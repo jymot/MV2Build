@@ -13,15 +13,15 @@ import org.gradle.api.tasks.TaskAction
  * <p>Date         : 17/4/11.</p>
  * <p>Time         : 下午2:29.</p>
  */
-class ClearChannel extends DefaultTask{
+class CleanChannel extends DefaultTask{
     @Input public Project targetProject
 
-    ClearChannel(){
-        setDescription("Clear Apk channel info.")
+    CleanChannel(){
+        setDescription("Clean Apk channel info.")
         setGroup("MV2Build")
     }
 
-    @TaskAction void clearChannel(){
+    @TaskAction void cleanChannel(){
         BuildExtension buildExtension = BuildExtension.getBuildExtension(project)
 
         def apkFile = buildExtension.clearChannelApkFile
