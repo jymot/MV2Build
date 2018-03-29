@@ -9,6 +9,20 @@
         "extraInfo": {
           "test": "test-value"
         }
+      },
+      {
+        "alias": "测试渠道1",
+        "channel": "test1",
+        "extraInfo": {
+          "test": "test-value1"
+        }
+      },
+      {
+        "alias": "测试渠道2",
+        "channel": "test2",
+        "extraInfo": {
+          "test": "test-value2"
+        }
       }
     ]
   }

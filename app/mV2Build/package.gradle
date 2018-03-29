@@ -17,7 +17,7 @@ mV2Build{
     /**
      * 需要打印渠道信息的 APK。如果配置该项，那么会有 printChannelInfo Task 提供使用。
      */
-    printChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-测试渠道.apk")
+    printChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-测试渠道1.apk")
 
     /**
      * 在打包前，需要最先执行的脚本，执行顺序由数组顺序决定。
@@ -42,7 +42,7 @@ mV2Build{
          * 需要写入渠道的 APK。如果配置该项，那么会有 onlyWriteChannel Task 提供使用，
          * 该 Task 只是将已经打好的包根据配置文件，写入渠道。
          */
-        writeChannelApkFile = new File("${project.buildDir}/outputs/channel/app-release-0.apk")
+        writeChannelApkFile = new File("${project.buildDir}/outputs/apk/release/app-release.apk")
         /**
          * AndroidManifest.xml 文件
          */

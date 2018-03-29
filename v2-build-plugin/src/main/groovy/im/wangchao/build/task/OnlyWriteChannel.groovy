@@ -78,37 +78,43 @@ class OnlyWriteChannel extends DefaultTask {
             throw new GradleException("configFile 配置文件中，未配置 channel 信息")
         }
 
-        def extraInfo = new HashMap<String, String>()
+        def commonExtraInfo = new HashMap<String, String>()
         // 如果公钥不为空，那么打包时会注入完整性校验信息
         def pk = buildExtension.publicKey
         if (Utils.checkPublicKeyEnable(pk)){
-            extraInfo.put(Utils.INTEGRITY_KEY, Utils.getIntegrityInfo(apkFile, outputFolder, pk, targetProject))
+            commonExtraInfo.put(Utils.INTEGRITY_KEY, Utils.getIntegrityInfo(apkFile, outputFolder, pk, targetProject))
         }
 
         def increment = channel.isIncrement()
-        if (increment) {
+        def list = new ArrayList<>()
+        if (increment){
             int incrementCount = channel.getIncrementCount()
-            for (int i = 0; i < incrementCount; i++) {
-                extraInfo.put(Utils.ALIAS_KEY, "${i}")
-                generateChannelApk(apkFile, outputFolder, "${i}", extraInfo, "${i}", nameVariantMap)
+
+            for (int i = 0; i < incrementCount; i++){
+                MBuildConfig.ChannelListInfo info = new MBuildConfig.ChannelListInfo()
+                info.channel = "${i}"
+                info.alias = "${i}"
+                list.add(info)
             }
         } else {
-            // channel 中的 list
-            def list = channel.getList()
-            if (list == null || list.size() == 0){
+            def tempChannelList = channel.getList()
+            if (tempChannelList == null || tempChannelList.size() == 0){
                 throw new GradleException("configFile 配置文件 channel 中 list 配置为空")
             }
-            list.each { channelItem ->
-                if (channelItem.extraInfo != null){
-                    // 如果每一项单独配置了额外的信息，那么需要添加到 extraInfo 中
-                    extraInfo.putAll(channelItem.extraInfo)
-                }
-                extraInfo.put(Utils.ALIAS_KEY, channelItem.alias)
-
-                generateChannelApk(apkFile, outputFolder, channelItem.channel, extraInfo, channelItem.alias, nameVariantMap)
-            }
+            // channel 中的 list
+            list.addAll(tempChannelList)
         }
 
+        list.each { channelItem ->
+            def innerExtraInfo = new HashMap<String, String>(commonExtraInfo)
+            if (channelItem.extraInfo != null){
+                // 如果每一项单独配置了额外的信息，那么需要添加到 extraInfo 中
+                innerExtraInfo.putAll(channelItem.extraInfo)
+            }
+            innerExtraInfo.put(Utils.ALIAS_KEY, channelItem.alias)
+
+            generateChannelApk(apkFile, outputFolder, channelItem.channel, innerExtraInfo, channelItem.alias, nameVariantMap)
+        }
 
         targetProject.logger.lifecycle("APK Signature Scheme v2 Multi Channel takes about " + (
                 System.currentTimeMillis() - startTime) + " milliseconds")
