@@ -12,7 +12,9 @@
       {
         "alias": "测试渠道",
         "channel": "test",
-        "extraInfo": {}
+        "extraInfo": {
+          "test": "test-value"
+        }
       }
     ]
   }

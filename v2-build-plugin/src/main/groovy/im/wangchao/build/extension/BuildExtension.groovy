@@ -32,6 +32,8 @@ class BuildExtension {
      */
     String[] preBuildScript
 
+//    ChannelExtension channel
+
     BuildExtension(){
 
     }

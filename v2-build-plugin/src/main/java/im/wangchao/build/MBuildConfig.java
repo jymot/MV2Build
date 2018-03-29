@@ -129,5 +129,9 @@ public class MBuildConfig {
         public void setAlias(String alias) {
             this.alias = alias;
         }
+
+        @Override public String toString() {
+            return "[ChannelListInfo@ channel: " + channel + ", alias: " + alias + ", extraInfo: " + extraInfo + "]";
+        }
     }
 }
